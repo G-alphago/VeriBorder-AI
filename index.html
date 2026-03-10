@@ -2,13 +2,12 @@
 <html lang="en">
 
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>VeriBorder AI</title>
 
-<meta name="description" content="AI cosmetic export compliance analyzer">
+<meta name="description" content="AI Global Cosmetic Export Compliance Analyzer">
 
 <style>
 
@@ -29,6 +28,11 @@ border-bottom:1px solid #1e293b;
 header h1{
 font-size:40px;
 margin:0;
+}
+
+header p{
+color:#94a3b8;
+margin-top:10px;
 }
 
 .hero{
@@ -56,6 +60,7 @@ text-decoration:none;
 display:inline-block;
 margin-top:30px;
 font-size:18px;
+cursor:pointer;
 }
 
 .button:hover{
@@ -63,14 +68,18 @@ background:#1d4ed8;
 }
 
 .chat-section{
-margin-top:60px;
+margin-top:80px;
+padding-bottom:80px;
 }
 
-iframe{
+#coze-chat-container{
 width:100%;
-height:720px;
-border:none;
+max-width:900px;
+height:700px;
+margin:auto;
 background:white;
+border-radius:10px;
+overflow:hidden;
 }
 
 footer{
@@ -80,8 +89,19 @@ border-top:1px solid #1e293b;
 color:#94a3b8;
 }
 
-</style>
+@media (max-width:768px){
 
+.hero h2{
+font-size:26px;
+}
+
+#coze-chat-container{
+height:600px;
+}
+
+}
+
+</style>
 </head>
 
 <body>
@@ -89,18 +109,16 @@ color:#94a3b8;
 <header>
 
 <h1>VeriBorder</h1>
-
 <p>AI Global Cosmetic Export Compliance Analyzer</p>
 
 </header>
-
 
 <section class="hero">
 
 <h2>Check Cosmetic Export Regulations in Seconds</h2>
 
 <p>
-Upload cosmetic ingredient images and instantly analyze export compliance for Amazon, Qoo10, Shopee and other global marketplaces.
+Upload cosmetic ingredient images and instantly analyze export compliance for global marketplaces including Amazon, Qoo10, Shopee and more.
 </p>
 
 <a class="button" href="#analysis">
@@ -109,22 +127,46 @@ Start AI Analysis
 
 </section>
 
-
 <section id="analysis" class="chat-section">
 
-<iframe
-src="https://www.coze.com/chat"
-title="VeriBorder AI Chat">
-</iframe>
+<div id="coze-chat-container"></div>
 
 </section>
-
 
 <footer>
 
 <p>© 2026 VeriBorder AI</p>
 
 </footer>
+
+<!-- Coze Chat SDK -->
+
+<script src="https://sf-cdn.coze.com/obj/unpkg-va/flow-platform/chat-app-sdk/1.2.0-beta.6/libs/oversea/index.js"></script>
+
+<script>
+
+new CozeWebSDK.WebChatClient({
+
+config: {
+bot_id: "7611026549898919989"
+},
+
+componentProps: {
+title: "VeriBorder AI Assistant",
+container: "#coze-chat-container"
+},
+
+auth: {
+type: "token",
+token: "pat_hYlugJ838RbOfR3kQdfEUGs1fljpzm6tkcX1NOStLLKoJgqXXuys6ROxsErKXotQ",
+onRefreshToken: function () {
+return "pat_hYlugJ838RbOfR3kQdfEUGs1fljpzm6tkcX1NOStLLKoJgqXXuys6ROxsErKXotQ"
+}
+}
+
+});
+
+</script>
 
 </body>
 </html>
