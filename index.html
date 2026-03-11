@@ -1,80 +1,104 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
 <title>VeriBorder AI</title>
 
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"/>
+
 <style>
+
+:root{
+--primary:#4f46e5;
+--secondary:#ec4899;
+--dark:#0f172a;
+--gray:#64748b;
+--border:#e2e8f0;
+}
 
 body{
 margin:0;
-font-family:'Apple SD Gothic Neo',sans-serif;
-background:#ffffff;
-color:#111;
+font-family:'Pretendard',sans-serif;
+color:var(--dark);
+background:white;
 }
 
-/* NAVBAR */
+/* NAV */
 
 .nav{
+position:fixed;
+top:0;
+width:100%;
 display:flex;
 justify-content:space-between;
-align-items:center;
-padding:20px 40px;
+padding:15px 40px;
+background:rgba(255,255,255,0.9);
+backdrop-filter:blur(10px);
 border-bottom:1px solid #eee;
+z-index:10;
 }
 
 .logo{
-font-size:22px;
-font-weight:700;
-color:#ff4fa3;
+font-size:24px;
+font-weight:800;
+background:linear-gradient(90deg,var(--primary),var(--secondary));
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
 }
 
 .nav button{
-background:#ff4fa3;
-border:none;
+background:var(--dark);
 color:white;
-padding:10px 20px;
-border-radius:8px;
+padding:10px 22px;
+border-radius:30px;
+border:none;
 cursor:pointer;
 }
 
 /* HERO */
 
 .hero{
-padding:120px 20px;
+padding:160px 20px 80px;
 text-align:center;
 max-width:900px;
 margin:auto;
 }
 
 .hero h1{
-font-size:56px;
-line-height:1.2;
-margin-bottom:20px;
+font-size:54px;
+font-weight:800;
+}
+
+.gradient{
+background:linear-gradient(90deg,var(--primary),var(--secondary));
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
 }
 
 .hero p{
 font-size:20px;
-color:#555;
+color:var(--gray);
+margin-top:20px;
 }
 
-.hero button{
+.btn{
 margin-top:40px;
-padding:16px 32px;
+padding:16px 36px;
 font-size:18px;
-background:#ff4fa3;
 border:none;
+border-radius:50px;
 color:white;
-border-radius:10px;
 cursor:pointer;
+background:linear-gradient(135deg,var(--primary),var(--secondary));
 }
 
 /* SECTION */
 
 .section{
-padding:100px 20px;
+padding:90px 20px;
 max-width:1100px;
 margin:auto;
 text-align:center;
@@ -82,22 +106,43 @@ text-align:center;
 
 .section h2{
 font-size:36px;
-margin-bottom:40px;
+margin-bottom:50px;
 }
 
 .cards{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
 gap:30px;
 }
 
 .card{
 padding:30px;
-border:1px solid #eee;
-border-radius:12px;
+border:1px solid var(--border);
+border-radius:20px;
+text-align:left;
 }
 
-/* LOGIN MODAL */
+.card p{
+color:var(--gray);
+}
+
+/* DEMO */
+
+.demo-box{
+margin-top:40px;
+border-radius:20px;
+overflow:hidden;
+border:1px solid var(--border);
+height:500px;
+}
+
+.demo-box iframe{
+width:100%;
+height:100%;
+border:none;
+}
+
+/* LOGIN */
 
 .modal{
 position:fixed;
@@ -105,7 +150,7 @@ top:0;
 left:0;
 width:100%;
 height:100%;
-background:rgba(0,0,0,0.4);
+background:rgba(0,0,0,0.6);
 display:none;
 align-items:center;
 justify-content:center;
@@ -114,23 +159,24 @@ justify-content:center;
 .modal-content{
 background:white;
 padding:40px;
-border-radius:12px;
-width:350px;
+border-radius:20px;
+width:320px;
 text-align:center;
 }
 
-.modal-content input{
-width:90%;
+.modal input{
+width:100%;
 padding:12px;
-margin:10px 0;
-border:1px solid #ddd;
+margin:8px 0;
+border:1px solid var(--border);
 border-radius:8px;
 }
 
-.modal-content button{
-padding:12px 20px;
-background:#ff4fa3;
+.modal button{
+width:100%;
+padding:12px;
 border:none;
+background:var(--dark);
 color:white;
 border-radius:8px;
 margin-top:10px;
@@ -143,44 +189,44 @@ display:none;
 height:100vh;
 }
 
+.layout{
+display:flex;
+height:100%;
+}
+
 .sidebar{
 width:240px;
-background:#fafafa;
-border-right:1px solid #eee;
+background:white;
+border-right:1px solid var(--border);
 padding:30px;
 }
 
-.sidebar h3{
-margin-bottom:20px;
-}
-
 .sidebar div{
-margin:10px 0;
+margin:12px 0;
 cursor:pointer;
 }
 
 .main{
 flex:1;
 padding:40px;
-overflow:auto;
 }
 
-.layout{
-display:flex;
-height:100%;
-}
-
-/* CHAT */
-
-#coze-chat-container{
+.chatbox{
 width:100%;
 height:600px;
-border:1px solid #eee;
-border-radius:12px;
+border-radius:20px;
 overflow:hidden;
+border:1px solid var(--border);
+}
+
+.chatbox iframe{
+width:100%;
+height:100%;
+border:none;
 }
 
 </style>
+
 </head>
 
 <body>
@@ -188,8 +234,11 @@ overflow:hidden;
 <!-- NAV -->
 
 <div class="nav">
+
 <div class="logo">VeriBorder</div>
+
 <button onclick="openLogin()">Login</button>
+
 </div>
 
 <!-- HERO -->
@@ -197,84 +246,61 @@ overflow:hidden;
 <div class="hero">
 
 <h1>
-AI로 글로벌 화장품 수출 규제 확인
+AI로 글로벌 화장품 수출 규제를
+<br>
+<span class="gradient">몇 초 만에 분석합니다</span>
 </h1>
 
 <p>
-Amazon / Shopee / Qoo10 판매 규정을 몇 초 안에 분석합니다
+Amazon · Shopee · Qoo10 판매 규정을 자동 분석
 </p>
 
-<button onclick="openLogin()">
-무료로 시작하기
+<button class="btn" onclick="openLogin()">
+무료 시작
 </button>
 
 </div>
 
-<!-- WHY -->
+<!-- PROBLEM -->
 
 <div class="section">
 
-<h2>
-왜 VeriBorder가 필요한가
-</h2>
+<h2>왜 VeriBorder가 필요한가</h2>
 
 <div class="cards">
 
 <div class="card">
-<h3>수출 규정 복잡</h3>
-<p>
-각 국가 화장품 규제가 다릅니다
-</p>
+<h3>🌍 국가별 규제</h3>
+<p>화장품 성분 규정은 국가마다 다릅니다</p>
 </div>
 
 <div class="card">
-<h3>마켓 규정 차이</h3>
-<p>
-Amazon / Shopee 규칙이 모두 다릅니다
-</p>
+<h3>🛒 마켓 규정</h3>
+<p>Amazon, Shopee 규정이 모두 다릅니다</p>
 </div>
 
 <div class="card">
-<h3>서류 누락 위험</h3>
-<p>
-규정 위반 시 계정 정지 가능
-</p>
+<h3>⚠️ 계정 정지 위험</h3>
+<p>규정 위반 시 판매 계정이 정지됩니다</p>
 </div>
 
 </div>
 
 </div>
 
-<!-- FEATURES -->
+<!-- PRODUCT DEMO -->
 
 <div class="section">
 
-<h2>
-VeriBorder AI
-</h2>
+<h2>Product Demo</h2>
 
-<div class="cards">
-
-<div class="card">
-<h3>성분 분석</h3>
-<p>
-화장품 성분 기반 규제 확인
+<p style="color:var(--gray)">
+VeriBorder AI가 실제로 규제를 분석하는 모습
 </p>
-</div>
 
-<div class="card">
-<h3>마켓 규정 체크</h3>
-<p>
-글로벌 마켓 판매 가능 여부 분석
-</p>
-</div>
+<div class="demo-box">
 
-<div class="card">
-<h3>수출 리스크 분석</h3>
-<p>
-AI가 위험요소 자동 탐지
-</p>
-</div>
+<iframe src="PUBLISH_LINK"></iframe>
 
 </div>
 
@@ -312,19 +338,19 @@ AI가 위험요소 자동 탐지
 
 <h3>VeriBorder</h3>
 
-<div onclick="pageAI()">AI 분석</div>
-<div onclick="pageProfile()">회원정보 수정</div>
-<div onclick="pageQA()">Q&A</div>
-<div onclick="pageCommunity()">Community</div>
-<div onclick="pageAbout()">소개</div>
+<div onclick="showAI()">AI 분석</div>
+
+<div onclick="logout()">로그아웃</div>
 
 </div>
 
-<div class="main" id="main">
+<div class="main">
 
 <h1>AI 규제 분석</h1>
 
-<div id="coze-chat-container"></div>
+<div class="chatbox">
+
+<iframe src="PUBLISH_LINK"></iframe>
 
 </div>
 
@@ -332,11 +358,9 @@ AI가 위험요소 자동 탐지
 
 </div>
 
-<script src="https://sf-cdn.coze.com/obj/unpkg-va/flow-platform/chat-app-sdk/1.2.0-beta.6/libs/oversea/index.js"></script>
+</div>
 
 <script>
-
-/* LOGIN */
 
 function openLogin(){
 document.getElementById("loginModal").style.display="flex"
@@ -360,17 +384,11 @@ let pw=document.getElementById("password").value
 
 if(localStorage.getItem(email)==pw){
 
-document.body.scrollTop=0
-document.documentElement.scrollTop=0
-
-document.querySelector(".hero").style.display="none"
-document.querySelectorAll(".section").forEach(s=>s.style.display="none")
-document.querySelector(".nav").style.display="none"
-document.getElementById("loginModal").style.display="none"
+document.getElementById("landing-page")?.remove()
 
 document.getElementById("dashboard").style.display="block"
 
-loadChat()
+document.getElementById("loginModal").style.display="none"
 
 }else{
 
@@ -380,71 +398,17 @@ msg("로그인 실패")
 
 }
 
+function logout(){
+
+document.getElementById("dashboard").style.display="none"
+
+location.reload()
+
+}
+
 function msg(t){
 
 document.getElementById("msg").innerText=t
-
-}
-
-/* CHAT */
-
-function loadChat(){
-
-new CozeWebSDK.WebChatClient({
-
-config:{bot_id:"7611026549898919989"},
-
-componentProps:{
-title:"VeriBorder AI",
-container:"#coze-chat-container"
-},
-
-auth:{
-type:"token",
-token:"YOUR_PAT_TOKEN",
-onRefreshToken:()=>"YOUR_PAT_TOKEN"
-}
-
-})
-
-}
-
-/* PAGES */
-
-function pageAI(){
-
-main.innerHTML="<h1>AI 규제 분석</h1><div id='coze-chat-container'></div>"
-loadChat()
-
-}
-
-function pageProfile(){
-
-main.innerHTML=`
-<h1>회원정보 수정</h1>
-<input placeholder="이름"><br><br>
-<input placeholder="휴대전화"><br><br>
-<input placeholder="새 비밀번호"><br><br>
-<button>저장</button>
-`
-
-}
-
-function pageQA(){
-
-main.innerHTML="<h1>Q&A</h1><p>질문 기능 MVP</p>"
-
-}
-
-function pageCommunity(){
-
-main.innerHTML="<h1>Community</h1><p>커뮤니티 MVP</p>"
-
-}
-
-function pageAbout(){
-
-main.innerHTML="<h1>VeriBorder</h1><p>K-뷰티 글로벌 수출 AI 플랫폼</p>"
 
 }
 
