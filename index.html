@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
-
 <meta charset="UTF-8">
 <title>VeriBorder</title>
 
@@ -11,367 +9,291 @@
 body{
 margin:0;
 font-family:Arial;
-background:#0f172a;
-color:white;
+background:#fafafa;
 }
 
-header{
+/* HEADER */
+
+.header{
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:20px 60px;
+padding:20px 40px;
+border-bottom:1px solid #eee;
+background:white;
 }
 
 .logo{
-font-size:22px;
+font-size:20px;
 font-weight:bold;
 }
 
-.login-btn{
-background:#2563eb;
+.header button{
+background:black;
+color:white;
 border:none;
 padding:10px 18px;
-border-radius:8px;
-color:white;
 cursor:pointer;
 }
 
-.dashboard{
-display:none;
+/* LOGIN MODAL */
+
+.modal{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.5);
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+.modal-box{
+background:white;
+padding:30px;
+width:320px;
+}
+
+.modal-box input{
+width:100%;
+margin-bottom:10px;
+padding:10px;
+}
+
+/* LAYOUT */
+
+.wrapper{
+display:flex;
+height:calc(100vh - 70px);
 }
 
 .sidebar{
 width:220px;
-background:#020617;
-height:100vh;
-position:fixed;
-padding-top:40px;
+border-right:1px solid #eee;
+padding:20px;
+background:white;
 }
 
 .sidebar div{
-padding:14px 20px;
+padding:12px;
 cursor:pointer;
 }
 
 .sidebar div:hover{
-background:#1e293b;
+background:#f2f2f2;
 }
 
 .main{
-margin-left:220px;
+flex:1;
 padding:40px;
+overflow:auto;
 }
 
-textarea,input{
-padding:10px;
-margin-top:10px;
+/* AI */
+
+#coze-chat-container{
+height:500px;
+border:1px solid #ddd;
+margin-bottom:40px;
 }
+
+/* REPORT */
+
+.report{
+background:white;
+padding:20px;
+border:1px solid #eee;
+}
+
+/* COMMUNITY */
 
 .post{
-border:1px solid #333;
+border-bottom:1px solid #eee;
 padding:15px;
-margin-top:10px;
+cursor:pointer;
+}
+
+.comment{
+margin-left:20px;
+color:#555;
+}
+
+/* QNA */
+
+textarea.big{
+width:100%;
+height:160px;
 }
 
 </style>
-
 </head>
 
 <body>
 
-<header>
+<!-- HEADER -->
+
+<div class="header">
 
 <div class="logo">VeriBorder</div>
 
-<button id="loginButton" class="login-btn" onclick="openLogin()">Login</button>
+<button id="authBtn" onclick="openLogin()">Login</button>
 
-</header>
+</div>
 
-<div id="dashboard" class="dashboard">
+<!-- LOGIN -->
+
+<div id="loginModal" class="modal" style="display:none">
+
+<div class="modal-box">
+
+<h3>Login / Signup</h3>
+
+<input id="email" placeholder="email">
+
+<input id="password" type="password" placeholder="password">
+
+<button onclick="signup()">회원가입</button>
+
+<button onclick="login()">로그인</button>
+
+</div>
+
+</div>
+
+<!-- MAIN -->
+
+<div class="wrapper">
 
 <div class="sidebar">
 
-<div onclick="page('ai')">AI 분석</div>
-<div onclick="page('history')">분석 히스토리</div>
-<div onclick="page('report')">리포트</div>
-<div onclick="page('qa')">Q&A</div>
-<div onclick="page('community')">Community</div>
-<div onclick="page('profile')">회원정보 수정</div>
+<div onclick="pageAI()">AI 분석</div>
+
+<div onclick="pageCommunity()">Community</div>
+
+<div onclick="pageQA()">Q&A</div>
+
+<div onclick="pageProfile()">회원정보 수정</div>
 
 </div>
 
-<div id="main" class="main"></div>
-
-</div>
-
-<!-- 로그인 모달 -->
-
-<div id="loginModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:black;align-items:center;justify-content:center;">
-
-<div style="background:white;color:black;padding:30px;border-radius:10px">
-
-<h3>Login</h3>
-
-<input id="email" placeholder="email"><br>
-<input id="pw" type="password" placeholder="password"><br>
-
-<button onclick="signup()">회원가입</button>
-<button onclick="login()">로그인</button>
-
-<p id="msg"></p>
-
-</div>
+<div class="main" id="main"></div>
 
 </div>
 
 <script>
 
+/* 로그인 */
+
+let currentUser=null
+
 function openLogin(){
-
 document.getElementById("loginModal").style.display="flex"
-
 }
-
-/* 회원가입 */
 
 function signup(){
 
 let e=email.value
-let p=pw.value
+let p=password.value
 
 localStorage.setItem(e,p)
 
-msg.innerText="가입 완료"
-
+alert("signup success")
 }
-
-/* 로그인 */
 
 function login(){
 
 let e=email.value
-let p=pw.value
+let p=password.value
 
 if(localStorage.getItem(e)==p){
 
-document.getElementById("loginModal").style.display="none"
+currentUser=e
+loginModal.style.display="none"
 
-dashboard.style.display="block"
+authBtn.innerText="Logout"
+authBtn.onclick=logout
 
-document.getElementById("loginButton").innerText="Logout"
+pageAI()
 
-document.getElementById("loginButton").onclick=logout
-
-page("ai")
-
+}else{
+alert("login fail")
 }
 
 }
-
-/* 로그아웃 */
 
 function logout(){
 
-location.reload()
+currentUser=null
+authBtn.innerText="Login"
+authBtn.onclick=openLogin
+
+main.innerHTML="로그인이 필요합니다."
 
 }
 
-/* 페이지 전환 */
+/* AI PAGE */
 
-function page(p){
-
-let m=document.getElementById("main")
-
-/* VeriBorder AI */
-
-if(p=="ai"){
-
-m.innerHTML=`
-
-<h2>VeriBorder AI 분석</h2>
-
-<p>전성분을 입력하면 국가별 규제 리포트를 생성합니다.</p>
-
-<select>
-
-<option>일본</option>
-<option>미국</option>
-<option>EU</option>
-
-</select>
-
-<br>
-
-<textarea rows="6" cols="80" placeholder="전성분 입력"></textarea>
-
-<br>
-
-<button>분석 시작</button>
-
-`
-
-}
-
-/* 히스토리 */
-
-if(p=="history"){
-
-m.innerHTML=`
-
-<h2>분석 히스토리</h2>
-
-<ul>
-
-<li>클렌징오일 / 일본 / PASS</li>
-<li>세럼 / EU / Warning</li>
-
-</ul>
-
-`
-
-}
-
-/* 리포트 */
-
-if(p=="report"){
-
-m.innerHTML=`
-
-<h2>리포트</h2>
-
-<p>분석 후 리포트가 생성됩니다.</p>
-
-<button onclick="window.print()">PDF 다운로드</button>
-
-`
-
-}
-
-/* Q&A */
-
-if(p=="qa"){
-
-m.innerHTML=`
-
-<h2>Q&A</h2>
-
-<textarea id="q" style="width:1000px;height:200px"></textarea>
-
-<br>
-
-<button onclick="addQ()">질문 올리기</button>
-
-<div id="qList"></div>
-
-`
-
-}
-
-/* Community 블로그 */
-
-if(p=="community"){
-
-m.innerHTML=`
-
-<h2>Community</h2>
-
-<button onclick="writePost()">글 올리기</button>
-
-<div id="postList"></div>
-
-`
-
-loadPosts()
-
-}
-
-/* 회원정보 */
-
-if(p=="profile"){
-
-m.innerHTML=`
-
-<h2>회원정보 수정</h2>
-
-<input placeholder="이름"><br>
-<input placeholder="전화번호"><br>
-<input placeholder="이메일 변경"><br>
-<input placeholder="비밀번호 변경"><br>
-
-<button>저장</button>
-
-`
-
-}
-
-}
-
-/* Q&A */
-
-function addQ(){
-
-let text=q.value
-
-qList.innerHTML+=`<p>${text}</p>`
-
-}
-
-/* 글쓰기 */
-
-function writePost(){
+function pageAI(){
 
 main.innerHTML=`
 
-<h2>게시글 작성</h2>
+<h2>VeriBorder AI 분석</h2>
 
-<input id="title" placeholder="제목" style="width:600px"><br>
+<div id="coze-chat-container">
+Coze Publish 승인 후 AI가 여기에 연결됩니다
+</div>
 
-<textarea id="content" rows="10" cols="80"></textarea>
+<div class="report">
 
-<br>
+<h3>📄 VeriBorder 정밀 컨설팅 리포트 예시</h3>
 
-<button onclick="publishPost()">게시</button>
+<p>🎯 Target: 일본 / Qoo10</p>
+
+<h4>Executive Summary</h4>
+
+판정: 🟢 Pass
+
+<h4>성분 분석</h4>
+
+돌콩오일 / 올리브오일 / 티트리잎오일 등  
+→ 특이사항 없음
+
+<h4>광고 카피 세이프티</h4>
+
+"진정 효과" → 규제 가능성  
+→ 표현 수정 필요
+
+<h4>필수 서류</h4>
+
+전성분표  
+제조증명서  
+시험성적서
+
+</div>
 
 `
 
 }
 
-/* 게시 */
+/* COMMUNITY */
 
-function publishPost(){
+let posts=[]
 
-let title=document.getElementById("title").value
-let content=document.getElementById("content").value
+function pageCommunity(){
 
-let posts=JSON.parse(localStorage.getItem("posts")||"[]")
+let html=`<h2>Community</h2>
 
-posts.push({title,content})
-
-localStorage.setItem("posts",JSON.stringify(posts))
-
-page("community")
-
-}
-
-/* 게시글 목록 */
-
-function loadPosts(){
-
-let posts=JSON.parse(localStorage.getItem("posts")||"[]")
-
-let html=""
+<button onclick="writePost()">글 작성</button>`
 
 posts.forEach((p,i)=>{
 
 html+=`
 
-<div class="post">
+<div class="post" onclick="viewPost(${i})">
 
-<h3>${p.title}</h3>
-
-<p>${p.content}</p>
-
-<button onclick="deletePost(${i})">삭제</button>
+${p.title}
 
 </div>
 
@@ -379,26 +301,179 @@ html+=`
 
 })
 
-document.getElementById("postList").innerHTML=html
+main.innerHTML=html
 
 }
 
-/* 삭제 */
+function writePost(){
+
+main.innerHTML=`
+
+<h2>글 작성</h2>
+
+<input id="ptitle" placeholder="title">
+
+<textarea id="pcontent"></textarea>
+
+<button onclick="savePost()">게시</button>
+
+`
+
+}
+
+function savePost(){
+
+posts.push({
+title:ptitle.value,
+content:pcontent.value,
+comments:[]
+})
+
+pageCommunity()
+
+}
+
+function viewPost(i){
+
+let p=posts[i]
+
+let html=`
+
+<h2>${p.title}</h2>
+
+<p>${p.content}</p>
+
+<button onclick="deletePost(${i})">삭제</button>
+
+<h3>댓글</h3>
+
+<textarea id="c"></textarea>
+
+<button onclick="addComment(${i})">댓글 작성</button>
+
+`
+
+p.comments.forEach(c=>{
+html+=`<div class="comment">${c}</div>`
+})
+
+main.innerHTML=html
+
+}
 
 function deletePost(i){
 
-let posts=JSON.parse(localStorage.getItem("posts"))
-
 posts.splice(i,1)
+pageCommunity()
 
-localStorage.setItem("posts",JSON.stringify(posts))
+}
 
-page("community")
+function addComment(i){
+
+posts[i].comments.push(c.value)
+
+viewPost(i)
+
+}
+
+/* Q&A */
+
+let questions=[]
+
+function pageQA(){
+
+let html=`
+
+<h2>Q&A</h2>
+
+<textarea class="big" id="q"></textarea>
+
+<button onclick="ask()">질문 등록</button>
+
+`
+
+questions.forEach((q,i)=>{
+
+html+=`
+
+<div class="post" onclick="viewQ(${i})">
+
+${q.q}
+
+</div>
+
+`
+
+})
+
+main.innerHTML=html
+
+}
+
+function ask(){
+
+questions.push({
+q:q.value,
+answers:[]
+})
+
+pageQA()
+
+}
+
+function viewQ(i){
+
+let q=questions[i]
+
+let html=`
+
+<h3>${q.q}</h3>
+
+<textarea id="a"></textarea>
+
+<button onclick="answer(${i})">답변</button>
+
+`
+
+q.answers.forEach(a=>{
+html+=`<div class="comment">${a}</div>`
+})
+
+main.innerHTML=html
+
+}
+
+function answer(i){
+
+questions[i].answers.push(a.value)
+
+viewQ(i)
+
+}
+
+/* PROFILE */
+
+function pageProfile(){
+
+main.innerHTML=`
+
+<h2>회원정보 수정</h2>
+
+<input placeholder="이메일 변경">
+
+<input placeholder="이름">
+
+<input placeholder="전화번호">
+
+<input placeholder="비밀번호 변경">
+
+<button>저장</button>
+
+`
 
 }
 
 </script>
 
 </body>
-
 </html>
