@@ -7,7 +7,6 @@
 <meta name="description" content="AI Global Cosmetic Export Compliance Analyzer">
 
 <style>
-/* 공통 스타일 */
 body {
   margin:0;
   font-family:'Apple SD Gothic Neo', Arial, sans-serif;
@@ -67,8 +66,6 @@ a { text-decoration:none; color:inherit; }
 .main { flex:1; padding:40px; }
 .main h1 { color:#e75480; margin-bottom:20px; }
 .main p { line-height:1.6; }
-
-/* 메인페이지 소개 이미지 */
 .main img { max-width:100%; border-radius:12px; margin:20px 0; }
 
 /* Coze 챗봇 영역 */
@@ -94,8 +91,6 @@ a { text-decoration:none; color:inherit; }
   <div class="modal-content">
     <h2>회원가입 / 로그인</h2>
     <input type="email" id="email" placeholder="이메일" required><br>
-    <input type="text" id="name" placeholder="이름"><br>
-    <input type="tel" id="phone" placeholder="휴대전화 번호"><br>
     <input type="password" id="password" placeholder="비밀번호" required><br>
     <button onclick="signup()">회원가입</button>
     <button onclick="login()">로그인</button>
@@ -138,10 +133,8 @@ a { text-decoration:none; color:inherit; }
 function signup(){
   const email = document.getElementById('email').value;
   const password = document.getElementById('password').value;
-  const name = document.getElementById('name').value;
-  const phone = document.getElementById('phone').value;
   if(!email || !password){ showAuthMessage("이메일과 비밀번호 입력 필요"); return; }
-  localStorage.setItem(email, JSON.stringify({ password, name, phone }));
+  localStorage.setItem(email, JSON.stringify({ password }));
   showAuthMessage("회원가입 완료! 로그인 버튼 클릭");
 }
 function login(){
@@ -167,7 +160,6 @@ function showPage(page){
       break;
     case 'profile':
       main.innerHTML = `<h1>회원정보 수정</h1>
-      <input type="email" id="editEmail" placeholder="이메일"><br>
       <input type="text" id="editName" placeholder="이름"><br>
       <input type="tel" id="editPhone" placeholder="휴대전화"><br>
       <input type="password" id="editPassword" placeholder="비밀번호"><br>
@@ -202,13 +194,15 @@ function showPage(page){
 
 // 회원정보 수정
 function updateProfile(){
-  const email = document.getElementById('editEmail').value;
   const name = document.getElementById('editName').value;
   const phone = document.getElementById('editPhone').value;
   const password = document.getElementById('editPassword').value;
   const currentEmail = Object.keys(localStorage)[0]; // MVP 단순 구현
   if(currentEmail){
-    localStorage.setItem(currentEmail, JSON.stringify({ password, name, phone }));
+    const data = JSON.parse(localStorage.getItem(currentEmail));
+    data.name = name; data.phone = phone;
+    if(password) data.password = password;
+    localStorage.setItem(currentEmail, JSON.stringify(data));
     document.getElementById('profileMsg').innerText="회원정보가 수정되었습니다.";
   }
 }
@@ -267,7 +261,7 @@ function initCoze(){
   });
 }
 
-// 초기 화면
+// 초기 화면: 로그인 모달 표시
 document.getElementById('authModal').style.display='flex';
 </script>
 
