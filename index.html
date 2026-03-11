@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-
 <title>VeriBorder AI</title>
 
 <style>
@@ -13,204 +11,193 @@
 body{
 margin:0;
 font-family:Arial;
+background:#fafafa;
 }
 
 /* NAV */
 
 .nav{
-
 position:fixed;
 top:0;
 left:0;
 right:0;
-
-display:flex;
-justify-content:space-between;
-align-items:center;
-
-padding:15px 30px;
-
+height:60px;
 background:white;
-
-box-sizing:border-box;
-
 border-bottom:1px solid #eee;
-
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 30px;
+box-sizing:border-box;
+z-index:10;
 }
 
 .logo{
-
 font-size:22px;
 font-weight:bold;
-
 }
 
 .nav button{
-
-padding:10px 20px;
+padding:8px 18px;
 border:none;
 background:black;
 color:white;
 cursor:pointer;
-
 }
 
 /* HERO */
 
 .hero{
-
 padding-top:120px;
 text-align:center;
-
+max-width:900px;
+margin:auto;
 }
 
 .hero h1{
-
 font-size:42px;
-
 }
 
 .hero p{
-
 color:#666;
-
 }
 
-.btn{
-
+.start-btn{
 margin-top:30px;
-
-padding:15px 35px;
-
+padding:14px 34px;
 background:#4f46e5;
-
 color:white;
-
 border:none;
-
 cursor:pointer;
-
 }
 
 /* SECTION */
 
 .section{
-
 padding:80px 20px;
 text-align:center;
-
 }
 
 /* DEMO */
 
 .demo{
-
 width:90%;
 max-width:900px;
 height:500px;
-
 margin:auto;
-
 border:1px solid #ddd;
-
 border-radius:10px;
-
 overflow:hidden;
-
 }
 
 .demo iframe{
-
 width:100%;
 height:100%;
 border:none;
-
 }
 
 /* LOGIN */
 
 .modal{
-
 position:fixed;
-
 top:0;
 left:0;
-
 width:100%;
 height:100%;
-
 background:rgba(0,0,0,0.6);
-
 display:none;
-
-justify-content:center;
 align-items:center;
-
+justify-content:center;
 }
 
 .modal-content{
-
 background:white;
-
 padding:30px;
-
 border-radius:10px;
-
 width:300px;
-
 text-align:center;
-
 }
 
 .modal input{
-
 width:100%;
 padding:10px;
 margin:8px 0;
-
-}
-
-.modal button{
-
-width:100%;
-padding:10px;
-margin-top:10px;
-
 }
 
 /* DASHBOARD */
 
 .dashboard{
-
 display:none;
-
-padding-top:80px;
-
+padding-top:60px;
+height:100vh;
 }
 
+.layout{
+display:flex;
+height:100%;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+width:220px;
+background:white;
+border-right:1px solid #eee;
+padding:20px;
+box-sizing:border-box;
+}
+
+.sidebar div{
+margin:12px 0;
+cursor:pointer;
+}
+
+/* MAIN */
+
+.main{
+flex:1;
+padding:30px;
+overflow:auto;
+}
+
+/* CHAT */
+
 .chatbox{
-
-width:90%;
+width:100%;
 max-width:900px;
-
 height:600px;
-
-margin:auto;
-
 border:1px solid #ddd;
-
 border-radius:10px;
-
 overflow:hidden;
-
 }
 
 .chatbox iframe{
-
 width:100%;
 height:100%;
 border:none;
+}
 
+/* CARD */
+
+.card{
+border:1px solid #eee;
+border-radius:10px;
+padding:20px;
+margin:20px 0;
+background:white;
+}
+
+/* INPUT */
+
+input, textarea{
+width:100%;
+padding:10px;
+margin:8px 0;
+box-sizing:border-box;
+}
+
+button{
+cursor:pointer;
 }
 
 </style>
@@ -235,9 +222,11 @@ border:none;
 
 <h1>AI로 글로벌 화장품 규제를 분석합니다</h1>
 
-<p>Amazon · Shopee · Qoo10 규정 자동 분석</p>
+<p>Amazon · Shopee · Qoo10 판매 규정 자동 분석</p>
 
-<button class="btn" id="startBtn" onclick="openLogin()">무료 시작</button>
+<button class="start-btn" id="startBtn" onclick="openLogin()">
+무료 시작
+</button>
 
 </div>
 
@@ -248,9 +237,7 @@ border:none;
 <h2>Product Demo</h2>
 
 <div class="demo">
-
 <iframe src="PUBLISH_LINK"></iframe>
-
 </div>
 
 </div>
@@ -281,11 +268,33 @@ border:none;
 
 <div class="dashboard" id="dashboard">
 
-<h2 style="text-align:center">AI 규제 분석</h2>
+<div class="layout">
 
-<div class="chatbox">
+<!-- SIDEBAR -->
 
-<iframe src="PUBLISH_LINK"></iframe>
+<div class="sidebar">
+
+<h3>Menu</h3>
+
+<div onclick="showPage('ai')">AI 분석</div>
+
+<div onclick="showPage('result')">분석 결과</div>
+
+<div onclick="showPage('qa')">Q&A</div>
+
+<div onclick="showPage('community')">Community</div>
+
+<div onclick="showPage('profile')">회원정보 수정</div>
+
+<div onclick="showPage('about')">VeriBorder 소개</div>
+
+<div onclick="logout()">Logout</div>
+
+</div>
+
+<!-- MAIN -->
+
+<div class="main" id="mainContent"></div>
 
 </div>
 
@@ -293,10 +302,10 @@ border:none;
 
 <script>
 
+/* AUTH */
+
 function openLogin(){
-
 document.getElementById("loginModal").style.display="flex"
-
 }
 
 function signup(){
@@ -305,10 +314,8 @@ let email=document.getElementById("email").value
 let pw=document.getElementById("password").value
 
 if(!email||!pw){
-
 msg("입력 필요")
 return
-
 }
 
 localStorage.setItem(email,pw)
@@ -324,17 +331,15 @@ let pw=document.getElementById("password").value
 
 if(localStorage.getItem(email)==pw){
 
-document.getElementById("loginModal").style.display="none"
-
 document.getElementById("hero").style.display="none"
-
 document.getElementById("demoSection").style.display="none"
+document.getElementById("loginModal").style.display="none"
 
 document.getElementById("dashboard").style.display="block"
 
-document.getElementById("startBtn").style.display="none"
-
 document.getElementById("navBtn").innerText="Dashboard"
+
+showPage("ai")
 
 }else{
 
@@ -344,9 +349,121 @@ msg("로그인 실패")
 
 }
 
+function logout(){
+
+location.reload()
+
+}
+
 function msg(t){
 
 document.getElementById("msg").innerText=t
+
+}
+
+/* PAGE SWITCH */
+
+function showPage(page){
+
+let main=document.getElementById("mainContent")
+
+if(page=="ai"){
+
+main.innerHTML=`
+
+<h2>AI 규제 분석</h2>
+
+<div class="chatbox">
+<iframe src="PUBLISH_LINK"></iframe>
+</div>
+
+`
+
+}
+
+if(page=="result"){
+
+main.innerHTML=`
+
+<h2>분석 결과</h2>
+
+<div class="card">
+
+제품: Vitamin C Serum<br>
+국가: 미국<br>
+위험성: 낮음<br>
+필요 서류: FDA Cosmetic Registration
+
+</div>
+
+`
+
+}
+
+if(page=="qa"){
+
+main.innerHTML=`
+
+<h2>Q&A</h2>
+
+<textarea placeholder="질문 작성"></textarea>
+
+<button onclick="alert('MVP 저장 기능 예정')">
+질문 등록
+</button>
+
+`
+
+}
+
+if(page=="community"){
+
+main.innerHTML=`
+
+<h2>Community</h2>
+
+<textarea placeholder="고민 작성"></textarea>
+
+<button onclick="alert('MVP 저장 기능 예정')">
+게시글 작성
+</button>
+
+`
+
+}
+
+if(page=="profile"){
+
+main.innerHTML=`
+
+<h2>회원정보 수정</h2>
+
+<input placeholder="이름">
+
+<input placeholder="휴대폰 번호">
+
+<input type="password" placeholder="새 비밀번호">
+
+<button>저장</button>
+
+`
+
+}
+
+if(page=="about"){
+
+main.innerHTML=`
+
+<h2>VeriBorder 소개</h2>
+
+<p>
+VeriBorder는 글로벌 화장품 판매자를 위한
+AI 규제 분석 플랫폼입니다.
+</p>
+
+`
+
+}
 
 }
 
