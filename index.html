@@ -26,6 +26,7 @@ background:white;
 .logo{
 font-size:20px;
 font-weight:bold;
+cursor:pointer;
 }
 
 .header button{
@@ -48,6 +49,7 @@ background:rgba(0,0,0,0.5);
 display:flex;
 justify-content:center;
 align-items:center;
+z-index:1000;
 }
 
 .modal-box{
@@ -99,9 +101,30 @@ border:1px solid #ddd;
 margin-bottom:40px;
 }
 
+/* MAIN HERO */
+
+.hero{
+max-width:800px;
+}
+
+.hero h1{
+font-size:34px;
+}
+
+.hero button{
+margin-top:20px;
+padding:14px 26px;
+background:black;
+color:white;
+border:none;
+cursor:pointer;
+font-size:16px;
+}
+
 /* REPORT */
 
 .report{
+margin-top:40px;
 background:white;
 padding:20px;
 border:1px solid #eee;
@@ -136,15 +159,15 @@ height:160px;
 
 <div class="header">
 
-<div class="logo">VeriBorder</div>
+<div class="logo" onclick="pageHome()">VeriBorder</div>
 
-<button id="authBtn" onclick="openLogin()">Login</button>
+<button id="authBtn" onclick="logout()">Logout</button>
 
 </div>
 
-<!-- LOGIN -->
+<!-- LOGIN MODAL -->
 
-<div id="loginModal" class="modal" style="display:none">
+<div id="loginModal" class="modal">
 
 <div class="modal-box">
 
@@ -168,6 +191,8 @@ height:160px;
 
 <div class="sidebar">
 
+<div onclick="pageHome()">Home</div>
+
 <div onclick="pageAI()">AI 분석</div>
 
 <div onclick="pageCommunity()">Community</div>
@@ -184,13 +209,9 @@ height:160px;
 
 <script>
 
-/* 로그인 */
-
 let currentUser=null
 
-function openLogin(){
-document.getElementById("loginModal").style.display="flex"
-}
+/* LOGIN */
 
 function signup(){
 
@@ -199,7 +220,8 @@ let p=password.value
 
 localStorage.setItem(e,p)
 
-alert("signup success")
+alert("회원가입 완료")
+
 }
 
 function login(){
@@ -210,15 +232,15 @@ let p=password.value
 if(localStorage.getItem(e)==p){
 
 currentUser=e
+
 loginModal.style.display="none"
 
-authBtn.innerText="Logout"
-authBtn.onclick=logout
-
-pageAI()
+pageHome()
 
 }else{
-alert("login fail")
+
+alert("로그인 실패")
+
 }
 
 }
@@ -226,28 +248,83 @@ alert("login fail")
 function logout(){
 
 currentUser=null
-authBtn.innerText="Login"
-authBtn.onclick=openLogin
 
-main.innerHTML="로그인이 필요합니다."
+loginModal.style.display="flex"
+
+main.innerHTML=""
 
 }
 
-/* AI PAGE */
+/* HOME PAGE */
 
-function pageAI(){
+function pageHome(){
 
 main.innerHTML=`
 
-<h2>VeriBorder AI 분석</h2>
+<div class="hero">
 
-<div id="coze-chat-container">
-Coze Publish 승인 후 AI가 여기에 연결됩니다
+<h1>K-Beauty 글로벌 수출 리스크를 관리하는 AI</h1>
+
+<p>
+
+해외 마켓플레이스에서 화장품을 판매하는 셀러에게  
+통관 규제와 성분 규제는 가장 큰 리스크입니다.
+
+국가마다 다른 화장품 규정 때문에
+
+</p>
+
+<ul>
+
+<li>통관 보류</li>
+
+<li>상품 삭제</li>
+
+<li>광고 문구 규제</li>
+
+<li>추가 서류 요구</li>
+
+</ul>
+
+<p>
+
+이러한 문제는 판매 중단과 계정 리스크로 이어질 수 있습니다.
+
+</p>
+
+<h2>VeriBorder가 해결합니다</h2>
+
+<p>
+
+VeriBorder는 AI 기반 화장품 수출 규제 분석 시스템으로
+
+</p>
+
+<ul>
+
+<li>성분 규제 분석</li>
+
+<li>광고 문구 리스크 분석</li>
+
+<li>통관 서류 체크</li>
+
+<li>마켓플레이스 규정 대응</li>
+
+</ul>
+
+<p>
+
+을 자동으로 분석하여 리포트를 제공합니다.
+
+</p>
+
+<button onclick="pageAI()">AI 분석 시작</button>
+
 </div>
 
 <div class="report">
 
-<h3>📄 VeriBorder 정밀 컨설팅 리포트 예시</h3>
+<h3>📄 VeriBorder 리포트 예시</h3>
 
 <p>🎯 Target: 일본 / Qoo10</p>
 
@@ -260,16 +337,35 @@ Coze Publish 승인 후 AI가 여기에 연결됩니다
 돌콩오일 / 올리브오일 / 티트리잎오일 등  
 → 특이사항 없음
 
-<h4>광고 카피 세이프티</h4>
+<h4>광고 카피 리스크</h4>
 
 "진정 효과" → 규제 가능성  
-→ 표현 수정 필요
+→ 표현 수정 권장
 
 <h4>필수 서류</h4>
 
 전성분표  
 제조증명서  
-시험성적서
+품질 시험성적서
+
+</div>
+
+`
+
+}
+
+/* AI PAGE */
+
+function pageAI(){
+
+main.innerHTML=`
+
+<h2>VeriBorder AI 분석</h2>
+
+<div id="coze-chat-container">
+
+Coze Publish 승인 후  
+VeriBorder AI가 여기에 연결됩니다.
 
 </div>
 
@@ -376,7 +472,7 @@ viewPost(i)
 
 }
 
-/* Q&A */
+/* QNA */
 
 let questions=[]
 
