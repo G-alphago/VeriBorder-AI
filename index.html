@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
+
 <meta charset="UTF-8">
 <title>VeriBorder</title>
 
@@ -12,8 +14,6 @@ font-family:Arial;
 background:#0f172a;
 color:white;
 }
-
-/* header */
 
 header{
 display:flex;
@@ -35,79 +35,6 @@ border-radius:8px;
 color:white;
 cursor:pointer;
 }
-
-/* hero */
-
-.hero{
-text-align:center;
-padding:120px 20px;
-}
-
-.hero h1{
-font-size:52px;
-margin-bottom:20px;
-}
-
-.hero p{
-font-size:20px;
-color:#cbd5f5;
-}
-
-.cta{
-margin-top:40px;
-padding:16px 30px;
-background:#2563eb;
-border:none;
-border-radius:10px;
-color:white;
-font-size:18px;
-cursor:pointer;
-}
-
-/* section */
-
-.section{
-padding:80px 20px;
-text-align:center;
-}
-
-.cards{
-display:flex;
-justify-content:center;
-gap:30px;
-margin-top:40px;
-flex-wrap:wrap;
-}
-
-.card{
-background:#1e293b;
-padding:30px;
-border-radius:12px;
-width:260px;
-}
-
-/* report */
-
-.report{
-background:white;
-color:black;
-border-radius:12px;
-padding:30px;
-max-width:900px;
-margin:60px auto;
-}
-
-.report table{
-width:100%;
-border-collapse:collapse;
-}
-
-.report td, .report th{
-border:1px solid #ddd;
-padding:8px;
-}
-
-/* dashboard */
 
 .dashboard{
 display:none;
@@ -135,39 +62,19 @@ margin-left:220px;
 padding:40px;
 }
 
-input,select{
+textarea,input{
 padding:10px;
-margin:8px;
+margin-top:10px;
 }
 
-button{
-padding:10px 16px;
-cursor:pointer;
-}
-
-/* modal */
-
-.modal{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.7);
-display:none;
-justify-content:center;
-align-items:center;
-}
-
-.modal-box{
-background:white;
-color:black;
-padding:30px;
-border-radius:12px;
-width:300px;
+.post{
+border:1px solid #333;
+padding:15px;
+margin-top:10px;
 }
 
 </style>
+
 </head>
 
 <body>
@@ -180,89 +87,7 @@ width:300px;
 
 </header>
 
-<!-- HERO -->
-
-<section class="hero">
-
-<h1>AI Global Cosmetic Compliance</h1>
-
-<p>K-Beauty sellers export safely with AI regulation analysis</p>
-
-<button class="cta" onclick="openLogin()">무료 시작</button>
-
-</section>
-
-<!-- WHY -->
-
-<section class="section">
-
-<h2>Why VeriBorder</h2>
-
-<div class="cards">
-
-<div class="card">
-<h3>Ingredient Analysis</h3>
-<p>국가별 화장품 성분 규제 자동 분석</p>
-</div>
-
-<div class="card">
-<h3>Ad Copy Safety</h3>
-<p>광고 문구 규제 리스크 자동 검사</p>
-</div>
-
-<div class="card">
-<h3>Export Documents</h3>
-<p>필수 서류 자동 체크리스트</p>
-</div>
-
-</div>
-
-</section>
-
-<!-- REPORT DEMO -->
-
-<div class="report">
-
-<h2>📄 VeriBorder 정밀 컨설팅 리포트</h2>
-
-<p><b>Target:</b> 일본 / Qoo10</p>
-
-<h3>Executive Summary</h3>
-
-<p>🟢 Pass (일본 수출 기준 문제 없음)</p>
-
-<h3>성분 분석</h3>
-
-<table>
-
-<tr>
-<th>등급</th>
-<th>성분</th>
-<th>리스크</th>
-<th>대체</th>
-</tr>
-
-<tr>
-<td>🟢</td>
-<td>돌콩오일</td>
-<td>문제 없음</td>
-<td>-</td>
-</tr>
-
-<tr>
-<td>🟢</td>
-<td>올리브오일</td>
-<td>문제 없음</td>
-<td>-</td>
-</tr>
-
-</table>
-
-</div>
-
-<!-- DASHBOARD -->
-
-<div class="dashboard" id="dashboard">
+<div id="dashboard" class="dashboard">
 
 <div class="sidebar">
 
@@ -275,17 +100,17 @@ width:300px;
 
 </div>
 
-<div class="main" id="main"></div>
+<div id="main" class="main"></div>
 
 </div>
 
-<!-- LOGIN MODAL -->
+<!-- 로그인 모달 -->
 
-<div class="modal" id="loginModal">
+<div id="loginModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:black;align-items:center;justify-content:center;">
 
-<div class="modal-box">
+<div style="background:white;color:black;padding:30px;border-radius:10px">
 
-<h3>Login / Signup</h3>
+<h3>Login</h3>
 
 <input id="email" placeholder="email"><br>
 <input id="pw" type="password" placeholder="password"><br>
@@ -301,13 +126,13 @@ width:300px;
 
 <script>
 
-/* modal */
-
 function openLogin(){
+
 document.getElementById("loginModal").style.display="flex"
+
 }
 
-/* signup */
+/* 회원가입 */
 
 function signup(){
 
@@ -320,7 +145,7 @@ msg.innerText="가입 완료"
 
 }
 
-/* login */
+/* 로그인 */
 
 function login(){
 
@@ -331,11 +156,11 @@ if(localStorage.getItem(e)==p){
 
 document.getElementById("loginModal").style.display="none"
 
-document.querySelector(".hero").style.display="none"
-document.querySelector(".section").style.display="none"
-document.querySelector(".report").style.display="none"
-
 dashboard.style.display="block"
+
+document.getElementById("loginButton").innerText="Logout"
+
+document.getElementById("loginButton").onclick=logout
 
 page("ai")
 
@@ -343,39 +168,51 @@ page("ai")
 
 }
 
-/* pages */
+/* 로그아웃 */
+
+function logout(){
+
+location.reload()
+
+}
+
+/* 페이지 전환 */
 
 function page(p){
 
 let m=document.getElementById("main")
 
-/* AI */
+/* VeriBorder AI */
 
 if(p=="ai"){
 
 m.innerHTML=`
 
-<h2>AI 규제 분석</h2>
+<h2>VeriBorder AI 분석</h2>
+
+<p>전성분을 입력하면 국가별 규제 리포트를 생성합니다.</p>
 
 <select>
+
 <option>일본</option>
 <option>미국</option>
 <option>EU</option>
+
 </select>
 
 <br>
 
-<textarea placeholder="전성분 입력" rows="6" cols="60"></textarea>
+<textarea rows="6" cols="80" placeholder="전성분 입력"></textarea>
 
 <br>
 
-<button onclick="alert('AI 분석 시작')">분석 시작</button>
+<button>분석 시작</button>
 
 `
 
 }
 
-/* history */
+/* 히스토리 */
 
 if(p=="history"){
 
@@ -394,7 +231,7 @@ m.innerHTML=`
 
 }
 
-/* report */
+/* 리포트 */
 
 if(p=="report"){
 
@@ -402,13 +239,15 @@ m.innerHTML=`
 
 <h2>리포트</h2>
 
-<button onclick="downloadPDF()">PDF 다운로드</button>
+<p>분석 후 리포트가 생성됩니다.</p>
+
+<button onclick="window.print()">PDF 다운로드</button>
 
 `
 
 }
 
-/* QA */
+/* Q&A */
 
 if(p=="qa"){
 
@@ -416,7 +255,9 @@ m.innerHTML=`
 
 <h2>Q&A</h2>
 
-<textarea id="q"></textarea><br>
+<textarea id="q" style="width:1000px;height:200px"></textarea>
+
+<br>
 
 <button onclick="addQ()">질문 올리기</button>
 
@@ -426,7 +267,7 @@ m.innerHTML=`
 
 }
 
-/* community */
+/* Community 블로그 */
 
 if(p=="community"){
 
@@ -434,17 +275,17 @@ m.innerHTML=`
 
 <h2>Community</h2>
 
-<textarea id="c"></textarea><br>
+<button onclick="writePost()">글 올리기</button>
 
-<button onclick="addC()">글 작성</button>
-
-<div id="cList"></div>
+<div id="postList"></div>
 
 `
 
+loadPosts()
+
 }
 
-/* profile */
+/* 회원정보 */
 
 if(p=="profile"){
 
@@ -475,25 +316,89 @@ qList.innerHTML+=`<p>${text}</p>`
 
 }
 
-/* community */
+/* 글쓰기 */
 
-function addC(){
+function writePost(){
 
-let text=c.value
+main.innerHTML=`
 
-cList.innerHTML+=`<p>${text}</p>`
+<h2>게시글 작성</h2>
+
+<input id="title" placeholder="제목" style="width:600px"><br>
+
+<textarea id="content" rows="10" cols="80"></textarea>
+
+<br>
+
+<button onclick="publishPost()">게시</button>
+
+`
 
 }
 
-/* PDF */
+/* 게시 */
 
-function downloadPDF(){
+function publishPost(){
 
-window.print()
+let title=document.getElementById("title").value
+let content=document.getElementById("content").value
+
+let posts=JSON.parse(localStorage.getItem("posts")||"[]")
+
+posts.push({title,content})
+
+localStorage.setItem("posts",JSON.stringify(posts))
+
+page("community")
+
+}
+
+/* 게시글 목록 */
+
+function loadPosts(){
+
+let posts=JSON.parse(localStorage.getItem("posts")||"[]")
+
+let html=""
+
+posts.forEach((p,i)=>{
+
+html+=`
+
+<div class="post">
+
+<h3>${p.title}</h3>
+
+<p>${p.content}</p>
+
+<button onclick="deletePost(${i})">삭제</button>
+
+</div>
+
+`
+
+})
+
+document.getElementById("postList").innerHTML=html
+
+}
+
+/* 삭제 */
+
+function deletePost(i){
+
+let posts=JSON.parse(localStorage.getItem("posts"))
+
+posts.splice(i,1)
+
+localStorage.setItem("posts",JSON.stringify(posts))
+
+page("community")
 
 }
 
 </script>
 
 </body>
+
 </html>
