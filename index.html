@@ -1,35 +1,25 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>VeriBorder AI</title>
+<title>VeriBorder</title>
 
 <style>
 
 body{
 margin:0;
 font-family:Arial;
-background:#fafafa;
+background:#0f172a;
+color:white;
 }
 
-/* NAV */
+/* header */
 
-.nav{
-position:fixed;
-top:0;
-left:0;
-right:0;
-height:60px;
-background:white;
-border-bottom:1px solid #eee;
+header{
 display:flex;
-align-items:center;
 justify-content:space-between;
-padding:0 30px;
-box-sizing:border-box;
-z-index:10;
+align-items:center;
+padding:20px 60px;
 }
 
 .logo{
@@ -37,66 +27,125 @@ font-size:22px;
 font-weight:bold;
 }
 
-.nav button{
-padding:8px 18px;
+.login-btn{
+background:#2563eb;
 border:none;
-background:black;
+padding:10px 18px;
+border-radius:8px;
 color:white;
 cursor:pointer;
 }
 
-/* HERO */
+/* hero */
 
 .hero{
-padding-top:120px;
 text-align:center;
-max-width:900px;
-margin:auto;
+padding:120px 20px;
 }
 
 .hero h1{
-font-size:42px;
+font-size:52px;
+margin-bottom:20px;
 }
 
 .hero p{
-color:#666;
+font-size:20px;
+color:#cbd5f5;
 }
 
-.start-btn{
-margin-top:30px;
-padding:14px 34px;
-background:#4f46e5;
-color:white;
+.cta{
+margin-top:40px;
+padding:16px 30px;
+background:#2563eb;
 border:none;
+border-radius:10px;
+color:white;
+font-size:18px;
 cursor:pointer;
 }
 
-/* SECTION */
+/* section */
 
 .section{
 padding:80px 20px;
 text-align:center;
 }
 
-/* DEMO */
+.cards{
+display:flex;
+justify-content:center;
+gap:30px;
+margin-top:40px;
+flex-wrap:wrap;
+}
 
-.demo{
-width:90%;
+.card{
+background:#1e293b;
+padding:30px;
+border-radius:12px;
+width:260px;
+}
+
+/* report */
+
+.report{
+background:white;
+color:black;
+border-radius:12px;
+padding:30px;
 max-width:900px;
-height:500px;
-margin:auto;
-border:1px solid #ddd;
-border-radius:10px;
-overflow:hidden;
+margin:60px auto;
 }
 
-.demo iframe{
+.report table{
 width:100%;
-height:100%;
-border:none;
+border-collapse:collapse;
 }
 
-/* LOGIN */
+.report td, .report th{
+border:1px solid #ddd;
+padding:8px;
+}
+
+/* dashboard */
+
+.dashboard{
+display:none;
+}
+
+.sidebar{
+width:220px;
+background:#020617;
+height:100vh;
+position:fixed;
+padding-top:40px;
+}
+
+.sidebar div{
+padding:14px 20px;
+cursor:pointer;
+}
+
+.sidebar div:hover{
+background:#1e293b;
+}
+
+.main{
+margin-left:220px;
+padding:40px;
+}
+
+input,select{
+padding:10px;
+margin:8px;
+}
+
+button{
+padding:10px 16px;
+cursor:pointer;
+}
+
+/* modal */
 
 .modal{
 position:fixed;
@@ -104,158 +153,144 @@ top:0;
 left:0;
 width:100%;
 height:100%;
-background:rgba(0,0,0,0.6);
+background:rgba(0,0,0,0.7);
 display:none;
-align-items:center;
 justify-content:center;
+align-items:center;
 }
 
-.modal-content{
+.modal-box{
 background:white;
+color:black;
 padding:30px;
-border-radius:10px;
+border-radius:12px;
 width:300px;
-text-align:center;
-}
-
-.modal input{
-width:100%;
-padding:10px;
-margin:8px 0;
-}
-
-/* DASHBOARD */
-
-.dashboard{
-display:none;
-padding-top:60px;
-height:100vh;
-}
-
-.layout{
-display:flex;
-height:100%;
-}
-
-/* SIDEBAR */
-
-.sidebar{
-width:220px;
-background:white;
-border-right:1px solid #eee;
-padding:20px;
-box-sizing:border-box;
-}
-
-.sidebar div{
-margin:12px 0;
-cursor:pointer;
-}
-
-/* MAIN */
-
-.main{
-flex:1;
-padding:30px;
-overflow:auto;
-}
-
-/* CHAT */
-
-.chatbox{
-width:100%;
-max-width:900px;
-height:600px;
-border:1px solid #ddd;
-border-radius:10px;
-overflow:hidden;
-}
-
-.chatbox iframe{
-width:100%;
-height:100%;
-border:none;
-}
-
-/* CARD */
-
-.card{
-border:1px solid #eee;
-border-radius:10px;
-padding:20px;
-margin:20px 0;
-background:white;
-}
-
-/* INPUT */
-
-input, textarea{
-width:100%;
-padding:10px;
-margin:8px 0;
-box-sizing:border-box;
-}
-
-button{
-cursor:pointer;
 }
 
 </style>
-
 </head>
 
 <body>
 
-<!-- NAV -->
-
-<div class="nav">
+<header>
 
 <div class="logo">VeriBorder</div>
 
-<button id="navBtn" onclick="openLogin()">Login</button>
+<button id="loginButton" class="login-btn" onclick="openLogin()">Login</button>
 
-</div>
+</header>
 
 <!-- HERO -->
 
-<div class="hero" id="hero">
+<section class="hero">
 
-<h1>AI로 글로벌 화장품 규제를 분석합니다</h1>
+<h1>AI Global Cosmetic Compliance</h1>
 
-<p>Amazon · Shopee · Qoo10 판매 규정 자동 분석</p>
+<p>K-Beauty sellers export safely with AI regulation analysis</p>
 
-<button class="start-btn" id="startBtn" onclick="openLogin()">
-무료 시작
-</button>
+<button class="cta" onclick="openLogin()">무료 시작</button>
+
+</section>
+
+<!-- WHY -->
+
+<section class="section">
+
+<h2>Why VeriBorder</h2>
+
+<div class="cards">
+
+<div class="card">
+<h3>Ingredient Analysis</h3>
+<p>국가별 화장품 성분 규제 자동 분석</p>
+</div>
+
+<div class="card">
+<h3>Ad Copy Safety</h3>
+<p>광고 문구 규제 리스크 자동 검사</p>
+</div>
+
+<div class="card">
+<h3>Export Documents</h3>
+<p>필수 서류 자동 체크리스트</p>
+</div>
 
 </div>
 
-<!-- DEMO -->
+</section>
 
-<div class="section" id="demoSection">
+<!-- REPORT DEMO -->
 
-<h2>Product Demo</h2>
+<div class="report">
 
-<div class="demo">
-<iframe src="PUBLISH_LINK"></iframe>
+<h2>📄 VeriBorder 정밀 컨설팅 리포트</h2>
+
+<p><b>Target:</b> 일본 / Qoo10</p>
+
+<h3>Executive Summary</h3>
+
+<p>🟢 Pass (일본 수출 기준 문제 없음)</p>
+
+<h3>성분 분석</h3>
+
+<table>
+
+<tr>
+<th>등급</th>
+<th>성분</th>
+<th>리스크</th>
+<th>대체</th>
+</tr>
+
+<tr>
+<td>🟢</td>
+<td>돌콩오일</td>
+<td>문제 없음</td>
+<td>-</td>
+</tr>
+
+<tr>
+<td>🟢</td>
+<td>올리브오일</td>
+<td>문제 없음</td>
+<td>-</td>
+</tr>
+
+</table>
+
 </div>
 
+<!-- DASHBOARD -->
+
+<div class="dashboard" id="dashboard">
+
+<div class="sidebar">
+
+<div onclick="page('ai')">AI 분석</div>
+<div onclick="page('history')">분석 히스토리</div>
+<div onclick="page('report')">리포트</div>
+<div onclick="page('qa')">Q&A</div>
+<div onclick="page('community')">Community</div>
+<div onclick="page('profile')">회원정보 수정</div>
+
 </div>
 
-<!-- LOGIN -->
+<div class="main" id="main"></div>
+
+</div>
+
+<!-- LOGIN MODAL -->
 
 <div class="modal" id="loginModal">
 
-<div class="modal-content">
+<div class="modal-box">
 
-<h2>회원가입 / 로그인</h2>
+<h3>Login / Signup</h3>
 
-<input id="email" placeholder="이메일">
-
-<input id="password" type="password" placeholder="비밀번호">
+<input id="email" placeholder="email"><br>
+<input id="pw" type="password" placeholder="password"><br>
 
 <button onclick="signup()">회원가입</button>
-
 <button onclick="login()">로그인</button>
 
 <p id="msg"></p>
@@ -264,185 +299,163 @@ cursor:pointer;
 
 </div>
 
-<!-- DASHBOARD -->
-
-<div class="dashboard" id="dashboard">
-
-<div class="layout">
-
-<!-- SIDEBAR -->
-
-<div class="sidebar">
-
-<h3>Menu</h3>
-
-<div onclick="showPage('ai')">AI 분석</div>
-
-<div onclick="showPage('result')">분석 결과</div>
-
-<div onclick="showPage('qa')">Q&A</div>
-
-<div onclick="showPage('community')">Community</div>
-
-<div onclick="showPage('profile')">회원정보 수정</div>
-
-<div onclick="showPage('about')">VeriBorder 소개</div>
-
-<div onclick="logout()">Logout</div>
-
-</div>
-
-<!-- MAIN -->
-
-<div class="main" id="mainContent"></div>
-
-</div>
-
-</div>
-
 <script>
 
-/* AUTH */
+/* modal */
 
 function openLogin(){
 document.getElementById("loginModal").style.display="flex"
 }
 
+/* signup */
+
 function signup(){
 
-let email=document.getElementById("email").value
-let pw=document.getElementById("password").value
+let e=email.value
+let p=pw.value
 
-if(!email||!pw){
-msg("입력 필요")
-return
-}
+localStorage.setItem(e,p)
 
-localStorage.setItem(email,pw)
-
-msg("회원가입 완료")
+msg.innerText="가입 완료"
 
 }
+
+/* login */
 
 function login(){
 
-let email=document.getElementById("email").value
-let pw=document.getElementById("password").value
+let e=email.value
+let p=pw.value
 
-if(localStorage.getItem(email)==pw){
+if(localStorage.getItem(e)==p){
 
-document.getElementById("hero").style.display="none"
-document.getElementById("demoSection").style.display="none"
 document.getElementById("loginModal").style.display="none"
 
-document.getElementById("dashboard").style.display="block"
+document.querySelector(".hero").style.display="none"
+document.querySelector(".section").style.display="none"
+document.querySelector(".report").style.display="none"
 
-document.getElementById("navBtn").innerText="Dashboard"
+dashboard.style.display="block"
 
-showPage("ai")
-
-}else{
-
-msg("로그인 실패")
+page("ai")
 
 }
 
 }
 
-function logout(){
+/* pages */
 
-location.reload()
+function page(p){
 
-}
+let m=document.getElementById("main")
 
-function msg(t){
+/* AI */
 
-document.getElementById("msg").innerText=t
+if(p=="ai"){
 
-}
-
-/* PAGE SWITCH */
-
-function showPage(page){
-
-let main=document.getElementById("mainContent")
-
-if(page=="ai"){
-
-main.innerHTML=`
+m.innerHTML=`
 
 <h2>AI 규제 분석</h2>
 
-<div class="chatbox">
-<iframe src="PUBLISH_LINK"></iframe>
-</div>
+<select>
+<option>일본</option>
+<option>미국</option>
+<option>EU</option>
+</select>
+
+<br>
+
+<textarea placeholder="전성분 입력" rows="6" cols="60"></textarea>
+
+<br>
+
+<button onclick="alert('AI 분석 시작')">분석 시작</button>
 
 `
 
 }
 
-if(page=="result"){
+/* history */
 
-main.innerHTML=`
+if(p=="history"){
 
-<h2>분석 결과</h2>
+m.innerHTML=`
 
-<div class="card">
+<h2>분석 히스토리</h2>
 
-제품: Vitamin C Serum<br>
-국가: 미국<br>
-위험성: 낮음<br>
-필요 서류: FDA Cosmetic Registration
+<ul>
 
-</div>
+<li>클렌징오일 / 일본 / PASS</li>
+<li>세럼 / EU / Warning</li>
+
+</ul>
 
 `
 
 }
 
-if(page=="qa"){
+/* report */
 
-main.innerHTML=`
+if(p=="report"){
+
+m.innerHTML=`
+
+<h2>리포트</h2>
+
+<button onclick="downloadPDF()">PDF 다운로드</button>
+
+`
+
+}
+
+/* QA */
+
+if(p=="qa"){
+
+m.innerHTML=`
 
 <h2>Q&A</h2>
 
-<textarea placeholder="질문 작성"></textarea>
+<textarea id="q"></textarea><br>
 
-<button onclick="alert('MVP 저장 기능 예정')">
-질문 등록
-</button>
+<button onclick="addQ()">질문 올리기</button>
+
+<div id="qList"></div>
 
 `
 
 }
 
-if(page=="community"){
+/* community */
 
-main.innerHTML=`
+if(p=="community"){
+
+m.innerHTML=`
 
 <h2>Community</h2>
 
-<textarea placeholder="고민 작성"></textarea>
+<textarea id="c"></textarea><br>
 
-<button onclick="alert('MVP 저장 기능 예정')">
-게시글 작성
-</button>
+<button onclick="addC()">글 작성</button>
+
+<div id="cList"></div>
 
 `
 
 }
 
-if(page=="profile"){
+/* profile */
 
-main.innerHTML=`
+if(p=="profile"){
+
+m.innerHTML=`
 
 <h2>회원정보 수정</h2>
 
-<input placeholder="이름">
-
-<input placeholder="휴대폰 번호">
-
-<input type="password" placeholder="새 비밀번호">
+<input placeholder="이름"><br>
+<input placeholder="전화번호"><br>
+<input placeholder="이메일 변경"><br>
+<input placeholder="비밀번호 변경"><br>
 
 <button>저장</button>
 
@@ -450,20 +463,33 @@ main.innerHTML=`
 
 }
 
-if(page=="about"){
+}
 
-main.innerHTML=`
+/* Q&A */
 
-<h2>VeriBorder 소개</h2>
+function addQ(){
 
-<p>
-VeriBorder는 글로벌 화장품 판매자를 위한
-AI 규제 분석 플랫폼입니다.
-</p>
+let text=q.value
 
-`
+qList.innerHTML+=`<p>${text}</p>`
 
 }
+
+/* community */
+
+function addC(){
+
+let text=c.value
+
+cList.innerHTML+=`<p>${text}</p>`
+
+}
+
+/* PDF */
+
+function downloadPDF(){
+
+window.print()
 
 }
 
