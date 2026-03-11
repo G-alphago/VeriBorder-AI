@@ -4,22 +4,22 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VeriBorder AI MVP</title>
-<meta name="description" content="1인 화장품 셀러용 글로벌 수출 규제 AI">
+<meta name="description" content="AI Global Cosmetic Export Compliance Analyzer">
 
 <style>
-/* 전체 레이아웃 */
+/* 공통 스타일 */
 body {
   margin:0;
   font-family:'Apple SD Gothic Neo', Arial, sans-serif;
   background:#fff0f5;
   color:#222;
 }
+a { text-decoration:none; color:inherit; }
 
-/* 로그인/회원가입 모달 */
+/* 모달(회원가입/로그인) */
 .modal {
   position: fixed;
-  top:0; left:0;
-  width:100%; height:100%;
+  top:0; left:0; width:100%; height:100%;
   background: rgba(0,0,0,0.3);
   display:flex; justify-content:center; align-items:center;
   z-index:1000;
@@ -28,118 +28,74 @@ body {
   background:#fff;
   padding:30px;
   border-radius:15px;
-  width:90%;
-  max-width:400px;
+  width:90%; max-width:400px;
   text-align:center;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  box-shadow:0 8px 20px rgba(0,0,0,0.2);
 }
-.modal-content h2 {
-  margin-bottom:20px;
-  color:#e75480;
-}
+.modal-content h2 { margin-bottom:20px; color:#e75480; }
 .modal-content input {
-  width:80%;
-  padding:12px;
-  margin:10px 0;
-  border-radius:10px;
-  border:1px solid #ffc0cb;
-  outline:none;
+  width:80%; padding:12px; margin:10px 0;
+  border-radius:10px; border:1px solid #ffc0cb; outline:none;
 }
 .modal-content input:focus {
   border-color:#ff69b4;
   box-shadow:0 0 5px rgba(255,105,180,0.5);
 }
 .modal-content button {
-  margin-top:15px;
-  padding:12px 25px;
-  border:none;
-  background:#ff69b4;
-  color:#fff;
-  font-weight:bold;
-  border-radius:10px;
-  cursor:pointer;
+  margin-top:15px; padding:12px 25px;
+  border:none; background:#ff69b4; color:#fff; font-weight:bold;
+  border-radius:10px; cursor:pointer;
   box-shadow:0 4px 10px rgba(0,0,0,0.1);
 }
-.modal-content button:hover {
-  background:#e75480;
-}
+.modal-content button:hover { background:#e75480; }
 .modal-content p { margin-top:10px; color:#e75480; }
 
-/* 메인 레이아웃 */
-.wrapper {
-  display:flex;
-  min-height:100vh;
-  transition: all 0.3s;
-}
-
-/* 사이드 메뉴 */
+/* 레이아웃 */
+.wrapper { display:flex; min-height:100vh; transition: all 0.3s; }
 .sidebar {
-  width:220px;
-  background:#ffe6f0;
-  padding-top:40px;
-  flex-shrink:0;
-  transition: all 0.3s;
+  width:200px; background:#ffe6f0; padding-top:40px; flex-shrink:0;
 }
-.sidebar h2 {
-  text-align:center;
-  color:#e75480;
-  margin-bottom:30px;
-  font-size:22px;
-}
-.sidebar ul {
-  list-style:none;
-  padding:0;
-}
+.sidebar h2 { text-align:center; font-size:22px; color:#e75480; margin-bottom:30px; }
+.sidebar ul { list-style:none; padding:0; }
 .sidebar ul li {
-  padding:14px 20px;
-  cursor:pointer;
-  color:#222;
-  font-weight:500;
-  border-radius:8px;
-  transition: background 0.2s;
+  padding:14px 20px; cursor:pointer; color:#222; font-weight:500;
+  border-radius:8px; transition: background 0.2s;
 }
-.sidebar ul li:hover {
-  background:#ffc0cb;
-}
+.sidebar ul li:hover { background:#ffc0cb; border-radius:6px; }
 
 /* 메인 콘텐츠 */
-.main {
-  flex-grow:1;
-  padding:40px;
-}
-.main h1 {
-  color:#e75480;
-  margin-bottom:20px;
-}
+.main { flex:1; padding:40px; }
+.main h1 { color:#e75480; margin-bottom:20px; }
 .main p { line-height:1.6; }
+
+/* 메인페이지 소개 이미지 */
+.main img { max-width:100%; border-radius:12px; margin:20px 0; }
 
 /* Coze 챗봇 영역 */
 #coze-chat-container {
-  width:100%;
-  max-width:900px;
-  height:600px;
-  margin-top:20px;
-  border-radius:15px;
-  overflow:hidden;
+  width:100%; max-width:900px; height:600px;
+  margin-top:20px; border-radius:15px; overflow:hidden;
   border:1px solid #ffc0cb;
 }
 
-/* 모바일 대응 */
+/* 반응형 */
 @media (max-width:768px){
-  .wrapper {flex-direction:column;}
-  .sidebar {width:100%; display:flex; overflow-x:auto;}
-  .sidebar ul {display:flex; flex-direction:row;}
-  .sidebar ul li {flex:1; text-align:center; margin:0 2px;}
+  .wrapper { flex-direction:column; }
+  .sidebar { width:100%; display:flex; overflow-x:auto; }
+  #coze-chat-container { height:500px; }
 }
 </style>
 </head>
+
 <body>
 
-<!-- 로그인/회원가입 모달 -->
-<div id="authModal" class="modal">
+<!-- 회원가입/로그인 모달 -->
+<div class="modal" id="authModal">
   <div class="modal-content">
     <h2>회원가입 / 로그인</h2>
     <input type="email" id="email" placeholder="이메일" required><br>
+    <input type="text" id="name" placeholder="이름"><br>
+    <input type="tel" id="phone" placeholder="휴대전화 번호"><br>
     <input type="password" id="password" placeholder="비밀번호" required><br>
     <button onclick="signup()">회원가입</button>
     <button onclick="login()">로그인</button>
@@ -152,7 +108,8 @@ body {
   <div class="sidebar">
     <h2>VeriBorder</h2>
     <ul>
-      <li onclick="showPage('profile')">개인정보 수정</li>
+      <li onclick="showPage('home')">메인페이지</li>
+      <li onclick="showPage('profile')">회원정보 수정</li>
       <li onclick="showPage('qa')">Q&A</li>
       <li onclick="showPage('community')">Community</li>
       <li onclick="showPage('about')">베리보더 소개</li>
@@ -160,69 +117,159 @@ body {
     </ul>
   </div>
 
-  <!-- 메인 영역 -->
+  <!-- 메인 콘텐츠 -->
   <div class="main" id="mainContent">
-    <h1>VeriBorder AI 분석</h1>
-    <p>회원가입 후 글로벌 화장품 수출 규제 분석 기능을 사용할 수 있습니다.</p>
-    <div id="coze-chat-container"></div>
+    <h1>VeriBorder AI 소개</h1>
+    <p>VeriBorder는 1인 K-뷰티 화장품 셀러를 위해 글로벌 수출 규제를 빠르게 확인할 수 있는 AI 플랫폼입니다.</p>
+    <img src="https://images.unsplash.com/photo-1616347677800-3c18b8df8b95?auto=format&fit=crop&w=900&q=80" alt="K-뷰티">
+    <p>회원가입 후 AI 분석 기능을 이용해 글로벌 마켓플레이스 판매 규정을 바로 확인할 수 있습니다.</p>
   </div>
 </div>
+
+<footer style="text-align:center; padding:30px; color:#e75480;">
+  © 2026 VeriBorder AI
+</footer>
 
 <!-- Coze Chat SDK -->
 <script src="https://sf-cdn.coze.com/obj/unpkg-va/flow-platform/chat-app-sdk/1.2.0-beta.6/libs/oversea/index.js"></script>
 
 <script>
-// 간단 회원가입/로그인 (localStorage MVP)
+// 회원가입/로그인 (localStorage MVP)
 function signup(){
   const email = document.getElementById('email').value;
   const password = document.getElementById('password').value;
-  if(!email || !password){ showAuthMessage("이메일과 비밀번호 입력 필요"); return;}
-  localStorage.setItem(email,password);
+  const name = document.getElementById('name').value;
+  const phone = document.getElementById('phone').value;
+  if(!email || !password){ showAuthMessage("이메일과 비밀번호 입력 필요"); return; }
+  localStorage.setItem(email, JSON.stringify({ password, name, phone }));
   showAuthMessage("회원가입 완료! 로그인 버튼 클릭");
 }
 function login(){
   const email = document.getElementById('email').value;
   const password = document.getElementById('password').value;
-  const saved = localStorage.getItem(email);
-  if(saved && saved===password){
-    document.getElementById('authModal').style.display='none';
-    initCoze();
-  } else showAuthMessage("로그인 실패: 이메일 또는 비밀번호 확인");
+  const user = JSON.parse(localStorage.getItem(email));
+  if(!user){ showAuthMessage("등록되지 않은 이메일입니다"); return; }
+  if(user.password !== password){ showAuthMessage("비밀번호가 틀렸습니다"); return; }
+  document.getElementById('authModal').style.display='none';
+  showPage('home');
 }
 function showAuthMessage(msg){ document.getElementById('authMessage').innerText=msg; }
 
-// 사이드 메뉴 전환
+// 페이지 전환
 function showPage(page){
   const main = document.getElementById('mainContent');
   switch(page){
+    case 'home':
+      main.innerHTML = `<h1>VeriBorder AI 소개</h1>
+      <p>VeriBorder는 1인 K-뷰티 화장품 셀러를 위해 글로벌 수출 규제를 빠르게 확인할 수 있는 AI 플랫폼입니다.</p>
+      <img src="https://images.unsplash.com/photo-1616347677800-3c18b8df8b95?auto=format&fit=crop&w=900&q=80" alt="K-뷰티">
+      <p>회원가입 후 AI 분석 기능을 이용해 글로벌 마켓플레이스 판매 규정을 바로 확인할 수 있습니다.</p>`;
+      break;
     case 'profile':
-      main.innerHTML="<h1>개인정보 수정</h1><p>회원 정보를 수정할 수 있습니다.</p>";
+      main.innerHTML = `<h1>회원정보 수정</h1>
+      <input type="email" id="editEmail" placeholder="이메일"><br>
+      <input type="text" id="editName" placeholder="이름"><br>
+      <input type="tel" id="editPhone" placeholder="휴대전화"><br>
+      <input type="password" id="editPassword" placeholder="비밀번호"><br>
+      <button onclick="updateProfile()">저장</button>
+      <p id="profileMsg" style="color:#e75480;"></p>`;
       break;
     case 'qa':
-      main.innerHTML="<h1>Q&A</h1><p>자주 묻는 질문 확인.</p>";
+      main.innerHTML = `<h1>Q&A</h1>
+      <div id="qaContainer"></div>
+      <input type="text" id="qaInput" placeholder="질문을 입력하세요">
+      <button onclick="addQuestion()">작성</button>`;
+      renderQA();
       break;
     case 'community':
-      main.innerHTML="<h1>Community</h1><p>커뮤니티 게시판 MVP 영역.</p>";
+      main.innerHTML = `<h1>Community</h1>
+      <div id="communityContainer"></div>
+      <input type="text" id="communityInput" placeholder="글을 입력하세요">
+      <button onclick="addPost()">작성</button>`;
+      renderCommunity();
       break;
     case 'about':
-      main.innerHTML="<h1>베리보더 소개</h1><p>K-뷰티 1인 화장품 셀러를 위한 글로벌 수출 AI 플랫폼.</p>";
+      main.innerHTML = `<h1>베리보더 소개</h1>
+      <p>K-뷰티 1인 화장품 셀러를 위한 글로벌 수출 AI 플랫폼입니다.</p>`;
       break;
     case 'ai':
-      main.innerHTML="<h1>VeriBorder AI 분석</h1><div id='coze-chat-container'></div>";
+      main.innerHTML = `<h1>VeriBorder AI 분석</h1>
+      <div id="coze-chat-container"></div>`;
       initCoze();
       break;
   }
+}
+
+// 회원정보 수정
+function updateProfile(){
+  const email = document.getElementById('editEmail').value;
+  const name = document.getElementById('editName').value;
+  const phone = document.getElementById('editPhone').value;
+  const password = document.getElementById('editPassword').value;
+  const currentEmail = Object.keys(localStorage)[0]; // MVP 단순 구현
+  if(currentEmail){
+    localStorage.setItem(currentEmail, JSON.stringify({ password, name, phone }));
+    document.getElementById('profileMsg').innerText="회원정보가 수정되었습니다.";
+  }
+}
+
+// Q&A MVP
+function renderQA(){
+  const container = document.getElementById('qaContainer');
+  const data = JSON.parse(localStorage.getItem('qa')) || [];
+  container.innerHTML = '';
+  data.forEach((q,i)=>{
+    container.innerHTML += `<p><b>Q${i+1}:</b> ${q.question}</p>`;
+    q.answers.forEach(a=>{
+      container.innerHTML += `<p style="margin-left:20px;">↳ ${a}</p>`;
+    });
+  });
+}
+function addQuestion(){
+  const input = document.getElementById('qaInput');
+  if(!input.value) return;
+  const data = JSON.parse(localStorage.getItem('qa')) || [];
+  data.push({ question: input.value, answers: [] });
+  localStorage.setItem('qa', JSON.stringify(data));
+  input.value='';
+  renderQA();
+}
+
+// Community MVP
+function renderCommunity(){
+  const container = document.getElementById('communityContainer');
+  const data = JSON.parse(localStorage.getItem('community')) || [];
+  container.innerHTML = '';
+  data.forEach((p,i)=>{
+    container.innerHTML += `<p><b>Post ${i+1}:</b> ${p.text}</p>`;
+    p.comments.forEach(c=>{
+      container.innerHTML += `<p style="margin-left:20px;">↳ ${c}</p>`;
+    });
+  });
+}
+function addPost(){
+  const input = document.getElementById('communityInput');
+  if(!input.value) return;
+  const data = JSON.parse(localStorage.getItem('community')) || [];
+  data.push({ text: input.value, comments: [] });
+  localStorage.setItem('community', JSON.stringify(data));
+  input.value='';
+  renderCommunity();
 }
 
 // Coze 챗봇 초기화
 function initCoze(){
   const PAT_TOKEN = "pat_hYlugJ838RbOfR3kQdfEUGs1fljpzm6tkcX1NOStLLKoJgqXXuys6ROxsErKXotQ";
   new CozeWebSDK.WebChatClient({
-    config:{bot_id:"7611026549898919989"},
-    componentProps:{title:"VeriBorder AI Assistant", container:"#coze-chat-container"},
-    auth:{type:"token", token:PAT_TOKEN, onRefreshToken:()=>PAT_TOKEN}
+    config: { bot_id:"7611026549898919989" },
+    componentProps: { title:"VeriBorder AI Assistant", container:"#coze-chat-container" },
+    auth: { type:"token", token:PAT_TOKEN, onRefreshToken:()=>PAT_TOKEN }
   });
 }
+
+// 초기 화면
+document.getElementById('authModal').style.display='flex';
 </script>
+
 </body>
 </html>
